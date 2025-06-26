@@ -29,7 +29,9 @@ const formSchema = z.object({
   lastSeen: z.string().min(5, "Por favor describe dónde y cuándo fue visto por última vez.").max(100),
   guardianName: z.string().min(2, "El nombre del tutor es requerido.").max(50),
   guardianContact: z.string().min(5, "El teléfono de contacto es requerido.").max(50),
-  imageUrl: z.string().url("Por favor ingresa una URL válida de la imagen."),
+  photoDataUri: z.string().min(1, "La foto es requerida.").refine((val) => val.startsWith('data:image/'), {
+    message: "Por favor sube una imagen válida.",
+  }),
   description: z.string().min(10, "La descripción debe tener al menos 10 caracteres.").max(200),
 });
 
@@ -47,7 +49,7 @@ export default function LostPetFormDialog({ isOpen, setIsOpen }: LostPetFormDial
       lastSeen: "",
       guardianName: "",
       guardianContact: "",
-      imageUrl: "",
+      photoDataUri: "",
       description: "",
     },
   });
@@ -130,12 +132,27 @@ export default function LostPetFormDialog({ isOpen, setIsOpen }: LostPetFormDial
               </div>
                <FormField
                 control={form.control}
-                name="imageUrl"
+                name="photoDataUri"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>URL de la Foto</FormLabel>
+                    <FormLabel>Foto</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://placehold.co/400x400.png" {...field} />
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              if (typeof reader.result === 'string') {
+                                field.onChange(reader.result);
+                              }
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

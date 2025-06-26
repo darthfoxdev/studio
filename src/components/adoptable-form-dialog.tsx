@@ -36,7 +36,9 @@ const formSchema = z.object({
   type: z.enum(["Perro", "Gato"], { required_error: "Por favor selecciona un tipo." }),
   breed: z.string().min(2, "La raza es requerida.").max(50),
   age: z.string().min(1, "La edad es requerida."),
-  imageUrl: z.string().url("Por favor ingresa una URL válida de la imagen."),
+  photoDataUri: z.string().min(1, "La foto es requerida.").refine((val) => val.startsWith('data:image/'), {
+    message: "Por favor sube una imagen válida.",
+  }),
   description: z.string().min(10, "La descripción debe tener al menos 10 caracteres.").max(200),
 });
 
@@ -53,7 +55,7 @@ export default function AdoptableFormDialog({ isOpen, setIsOpen }: AdoptableForm
       name: "",
       breed: "",
       age: "",
-      imageUrl: "",
+      photoDataUri: "",
       description: "",
     },
   });
@@ -145,12 +147,27 @@ export default function AdoptableFormDialog({ isOpen, setIsOpen }: AdoptableForm
             </div>
              <FormField
               control={form.control}
-              name="imageUrl"
+              name="photoDataUri"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>URL de la Foto</FormLabel>
+                  <FormLabel>Foto</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://placehold.co/400x400.png" {...field} />
+                    <Input 
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            if (typeof reader.result === 'string') {
+                              field.onChange(reader.result);
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
