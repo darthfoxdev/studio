@@ -27,7 +27,8 @@ import { useToast } from "@/hooks/use-toast";
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres.").max(50),
   lastSeen: z.string().min(5, "Por favor describe dónde y cuándo fue visto por última vez.").max(100),
-  contact: z.string().min(5, "Por favor ingresa información de contacto.").max(50),
+  guardianName: z.string().min(2, "El nombre del tutor es requerido.").max(50),
+  guardianContact: z.string().min(5, "El teléfono de contacto es requerido.").max(50),
   imageUrl: z.string().url("Por favor ingresa una URL válida de la imagen."),
   description: z.string().min(10, "La descripción debe tener al menos 10 caracteres.").max(200),
 });
@@ -44,7 +45,8 @@ export default function LostPetFormDialog({ isOpen, setIsOpen }: LostPetFormDial
     defaultValues: {
       name: "",
       lastSeen: "",
-      contact: "",
+      guardianName: "",
+      guardianContact: "",
       imageUrl: "",
       description: "",
     },
@@ -98,19 +100,34 @@ export default function LostPetFormDialog({ isOpen, setIsOpen }: LostPetFormDial
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="contact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Información de Contacto</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tu nombre y teléfono" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="guardianName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre del Tutor</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: Juan Pérez" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="guardianContact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Teléfono de Contacto</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ej: 555-1234" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
                <FormField
                 control={form.control}
                 name="imageUrl"

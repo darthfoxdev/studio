@@ -44,7 +44,7 @@ export function PetCard({ pet, isLost = false }: PetCardProps) {
             </div>
             <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-destructive" /> 
-                <span className="font-semibold">Contacto:</span> {lostPet.contact}
+                <span className="font-semibold">Contacto:</span> {lostPet.guardian.name} ({lostPet.guardian.contact})
             </div>
         </CardFooter>
       )}

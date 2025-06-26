@@ -1,3 +1,8 @@
+export type Guardian = {
+  name: string;
+  contact: string;
+};
+
 export type Pet = {
   id: number;
   name: string;
@@ -10,7 +15,7 @@ export type Pet = {
 
 export type LostPet = Pet & {
   lastSeen: string;
-  contact: string;
+  guardian: Guardian;
 };
 
 export const adoptablePets: Pet[] = [
@@ -80,7 +85,7 @@ export const lostPets: LostPet[] = [
     imageUrl: 'https://placehold.co/400x400.png',
     description: 'Se perdió cerca del parque central. Llevaba un collar rojo. Es muy amigable.',
     lastSeen: 'Parque Central, 15 de Mayo',
-    contact: 'Dueño: Juan Pérez - 555-1234',
+    guardian: { name: 'Juan Pérez', contact: '555-1234' },
   },
   {
     id: 102,
@@ -91,7 +96,7 @@ export const lostPets: LostPet[] = [
     imageUrl: 'https://placehold.co/400x400.png',
     description: 'Es un poco tímido con los extraños. Tiene una mancha blanca en el pecho.',
     lastSeen: 'Colonia Roma, 18 de Mayo',
-    contact: 'Dueña: Ana García - 555-5678',
+    guardian: { name: 'Ana García', contact: '555-5678' },
   },
    {
     id: 103,
@@ -102,7 +107,7 @@ export const lostPets: LostPet[] = [
     imageUrl: 'https://placehold.co/400x400.png',
     description: 'Tiene un ojo azul y uno marrón. Responde a su nombre. Recompensa por su regreso.',
     lastSeen: 'Cerca del mercado, 20 de Mayo',
-    contact: 'Dueño: Carlos Lopez - 555-8765',
+    guardian: { name: 'Carlos Lopez', contact: '555-8765' },
   },
   {
     id: 104,
@@ -113,7 +118,7 @@ export const lostPets: LostPet[] = [
     imageUrl: 'https://placehold.co/400x400.png',
     description: 'Pequeña y escurridiza. Le gusta esconderse en jardines. No lleva collar.',
     lastSeen: 'Barrio Gótico, 19 de Mayo',
-    contact: 'Dueña: Sofia Hernandez - 555-4321',
+    guardian: { name: 'Sofia Hernandez', contact: '555-4321' },
   },
 ];
 
