@@ -5,7 +5,7 @@ import { AppFooter } from "@/components/app-footer";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Patitas Felices",
+  title: "Unidad de Control y Bienestar Animal",
   description: "Unidad de control y bienestar animal",
 };
 

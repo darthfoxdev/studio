@@ -9,13 +9,13 @@ export function AppFooter() {
           <div className="flex items-center gap-2 mb-4 md:mb-0">
             <PawPrint className="h-6 w-6 text-primary" />
             <span className="font-headline text-lg font-bold">
-              Patitas Felices
+              Unidad de Control y Bienestar Animal
             </span>
           </div>
           <div className="text-center md:text-right text-sm text-muted-foreground">
             <p>Unidad de Control y Bienestar Animal</p>
-            <p>Contacto: (123) 456-7890 | info@patitasfelices.org</p>
-            <p>&copy; {new Date().getFullYear()} Patitas Felices. Todos los derechos reservados.</p>
+            <p>Contacto: (123) 456-7890 | info@controlanimal.org</p>
+            <p>&copy; {new Date().getFullYear()} Unidad de Control y Bienestar Animal. Todos los derechos reservados.</p>
           </div>
         </div>
       </div>

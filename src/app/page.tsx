@@ -13,7 +13,7 @@ export default function Home() {
       <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary text-center">
         <div className="container px-4 md:px-6">
           <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter mb-4">
-            Bienvenido a Patitas Felices
+            Bienvenido a la Unidad de Control y Bienestar Animal
           </h1>
           <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl mb-6">
             Tu centro de confianza para el bienestar animal. Conectamos corazones y reunimos familias.
