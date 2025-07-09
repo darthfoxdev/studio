@@ -30,6 +30,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { db, storage } from '../lib/firebase'; // Import Firebase
+import { collection, addDoc } from 'firebase/firestore';
 
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres.").max(50),

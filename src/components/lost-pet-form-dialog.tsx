@@ -23,6 +23,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { db, storage } from "@/lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 
 const formSchema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres.").max(50),
@@ -54,15 +57,39 @@ export default function LostPetFormDialog({ isOpen, setIsOpen }: LostPetFormDial
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "¡Reporte Recibido!",
-      description: `El reporte de ${values.name} ha sido enviado. ¡Esperamos que regrese a casa pronto!`,
-      variant: "default"
-    });
-    form.reset();
-    setIsOpen(false);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      // Upload image to Firebase Storage
+      const storageRef = ref(storage, `extraviados/${Date.now()}-${values.photoDataUri.substring(0, 10)}.png`); // Basic filename
+      await uploadString(storageRef, values.photoDataUri, 'data_url');
+      const photoUrl = await getDownloadURL(storageRef);
+
+      // Add data to Firestore
+      await addDoc(collection(db, "extraviados"), {
+        name: values.name,
+        lastSeen: values.lastSeen,
+        guardianName: values.guardianName,
+        guardianContact: values.guardianContact,
+        description: values.description,
+        photoUrl: photoUrl,
+        timestamp: new Date(), // Optional: add a timestamp
+      });
+
+      toast({
+        title: "¡Reporte Recibido!",
+        description: `El reporte de ${values.name} ha sido enviado. ¡Esperamos que regrese a casa pronto!`,
+        variant: "default"
+      });
+      form.reset();
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error submitting lost pet report: ", error);
+      toast({
+        title: "Error",
+        description: "Hubo un error al enviar el reporte. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
